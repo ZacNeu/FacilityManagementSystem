@@ -14,6 +14,7 @@ public class Facility {
 
     // Request list of facilities
     public object listFacilities(){
+        int currentActive = 0;
 
         if(capacity == 10){
             System.out.println("There are no facilities currently in the list.");
@@ -25,6 +26,8 @@ public class Facility {
                 }
             }
         }
+        currentActive = 10 - capacity; // Checks for currently active facilities
+        System.out.println("There are currently " + currentActive + " active facilities currently");
 
     }
 
