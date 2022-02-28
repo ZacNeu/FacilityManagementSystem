@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.Random;
 
 public class FacilityMaintenance{
 
@@ -8,8 +9,11 @@ public class FacilityMaintenance{
     String[] requestDates = new String[10];
     int[] problemRate = new int[10];
     int[] downTime = new int[10];
+    String[] maintenanceStatus = new String[10];
+    String[] maintenanceProgress = {"Request Submitted","Queued", "In progress"};
 
     Scanner reader = new Scanner(System.in);
+    Random rand = new Random();
 
     public boolean MakeFacilityMaintRequest(String facilityName, String request){
         boolean success = false;
@@ -24,11 +28,14 @@ public class FacilityMaintenance{
                     requestCount[i] += 1;
                     success = true;
 
-                    System.out.println("Your request was successfully processed and added to the list");
+                    System.out.println("Your request was successfully processed and added to the list.");
                     System.out.println("-------------------------------------------------------------");
                     System.out.println("Enter your preferred month and day for the maintenance (mm/dd): ");
                     String date = reader.nextLine();
                     scheduleMaintenance(date, i);
+
+                    int randInt = rand.nextInt(3);
+                    maintenanceStatus[i] = maintenanceProgress[randInt];
                 }
                 else{
                     System.out.println("There is no facility with the name " + facilityName + " in the list.");
@@ -39,7 +46,7 @@ public class FacilityMaintenance{
     }
 
     public String scheduleMaintenance(String date, int index){
-        String success = "There was an error setting the maintenance date";
+        String success = "There was an error setting the maintenance date.";
 
         for(int i = 0; i < requestDates.length; i++){
             if(requestDates[i].equals(date)){
@@ -68,7 +75,7 @@ public class FacilityMaintenance{
                 success = true;
             }
             else{
-                System.out.println("There is no facility by the name " + facilityName + " in the current list");
+                System.out.println("There is no facility by the name " + facilityName + " in the current list.");
             }
         }
         return success;
@@ -95,8 +102,20 @@ public class FacilityMaintenance{
         }
     }
 
-    public object listMaintenance(){
-
+    public void listMaintenance(String facilityName){
+        for(int i = 0; i < F.facilityNames.length; i++){
+            if(F.facilityNames[i].equalsIgnoreCase(facilityName)){
+                if(requestList[i] != null){
+                    System.out.println("The current status on your request for facility " + facilityName + " is: " + maintenanceStatus[i] + ".");
+                }
+                else{
+                    System.out.println("There is no request for facility " + facilityName + ".");
+                }
+            }
+            else{
+                System.out.println("There is no facility by the name " + facilityName + " in the current list.");
+            }
+        }
     }
 
     public object listFacilityProblems(){
