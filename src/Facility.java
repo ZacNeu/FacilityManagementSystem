@@ -1,4 +1,6 @@
 public class Facility {
+    FacilityMaintenance fm = new FacilityMaintenance();
+    FacilityUse fu = new FacilityUse();
 
     public String[] facilityNames = new String[10];
     public String[] facilityStatus = new String[10];
