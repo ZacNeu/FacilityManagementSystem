@@ -8,52 +8,95 @@ we could use a bunch of array for different information and
 
 public class Facility {
 
-    String[] facilityNames = {"Empty", "Empty", "Empty", "Empty", "Empty", "Empty", "Empty", "Empty", "Empty", "Empty"};
-    String[] facilityStatus = {"Empty", "Empty", "Empty", "Empty", "Empty", "Empty", "Empty", "Empty", "Empty", "Empty"};
+    public String[] facilityNames = new String[10];
+    public String[] facilityStatus = new String[10];
+    public int capacity = 10;
 
     // Request list of facilities
     public object listFacilities(){
-       for(int i = 0; i < facilityNames.length; i++){
-           System.out.println(facilityNames[i]) // Prints all entries in the names list
-       }
+
+        if(facilityNames[0] == null){
+            System.out.println("There are no facilities currently in the list.");
+        }
+        else{
+            for(int i = 0; i < facilityNames.length; i++){
+                if(facilityNames[i] != null){
+                    System.out.println(facilityNames[i]); // Prints all entries in the names list
+                }
+            }
+        }
+
     }
 
     // Request existing facility information
     public object getFacilityInformation(String facilityName){
-        for(int i = 0; i < facilityNames.length; i++){
-            if(facilityNames[i].equals(facilityName)){
-                System.out.println(facilityStatus[i]) // Print out information of the given facility
+
+        if(facilityStatus[0] == null){
+            System.out.println("There is no facility status value in the list.");
+        }
+        else{
+            for(int i = 0; i < facilityNames.length; i++){
+                if(facilityNames[i].toLowerCase().equals(facilityName.toLowerCase())){
+                    System.out.println(facilityStatus[i]); // Print out information of the given facility
                 /* Add more information to print, not sure
                 what other information to list for the facilities */
+                }
+                else {
+                    System.out.println("There is no facility with the name " + facilityName);
+                }
             }
         }
+
     }
 
     // Request the available capacity of facilities
     public object requestAvailableCapacity(){
-        int capacity = 0;
-
-        for(int i = 0; i < facilityNames.length; i++){
-            if(facilityNames[i].equals("Empty")){
-                capacity++;
-            }
-        }
-
-        System.out.print("Facility capacity: " + capacity);
+        System.out.print("Facility capacity available: " + capacity);
     }
 
     // Add a new facility to the list
     public object addNewFacility(String newFacility){
 
+        if(capacity > 0){
+            for(int i = 0; i < facilityNames.length; i++){
+                if(facilityNames[i] == null){
+                    facilityNames[i] = newFacility;
+                    capacity--;
+                }
+            }
+        }
+        else{
+            System.out.println("There is no capacity left for a new facility.");
+        }
+
     }
 
-    // Add details to specific facilities
-    public void addFacilityDetail(){
+    // Add details to specific facilities; Needs more details as we add details
+    public void addFacilityDetail(String facilityName, String statusValue){
+
+        for(int i = 0; i < facilityNames.length; i++){
+            if(facilityNames[i].toLowerCase().equals(facilityName.toLowerCase())){
+                facilityStatus[i] = statusValue; // Adds status to a specific facility
+            }
+            else{
+                System.out.println("There is no facility with the name " + facilityName + " to add details to.");
+            }
+        }
 
     }
 
     // Remove facilities from the list
-    public object removeFacility(){
+    public object removeFacility(String facilityName){
+
+        for(int i = 0; i < facilityNames[i]; i++){
+            if(facilityNames[i].toLowerCase().equals(facilityName.toLowerCase())){
+                facilityNames[i] = null;
+                capacity++;
+            }
+            else{
+                System.out.println("There is no facility with the name " + facilityName + " to remove from the list.");
+            }
+        }
 
     }
 }
