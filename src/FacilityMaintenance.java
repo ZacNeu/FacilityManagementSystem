@@ -61,7 +61,8 @@ public class FacilityMaintenance{
         for(int i = 0; i < F.facilityNames.length; i++){
             if(F.facilityNames[i].equalsIgnoreCase(facilityName)){
                 problemRate[i] = ((requestCount[i] / 365) * 100); /* Calculates problem rate,
-                                                                    requestCount count the amount of days needed for requests, divided by
+                                                                    requestCount counts the amount of days needed for requests (1 request takes
+                                                                    1 day), divided by
                                                                     days in a year and turned into a percentage.
                                                                     */
                 success = true;
@@ -75,6 +76,16 @@ public class FacilityMaintenance{
 
     public boolean calcDownTimeForFacility(String facilityName){
         boolean success = false;
+
+        for(int i = 0; i < F.facilityNames.length; i++){
+            if(F.facilityNames[i].equalsIgnoreCase(facilityName)){
+                downTime[i] = requestCount[i] * 24; /* Since requests take one day to do, facility is down for that day, requestCount has the amount of days
+                                                       per facility, so I take amount of days and multiply by 24 to get total amount of hours of downtime. */
+                success = true;
+                System.out.println("Facility " + facilityName + " was down for " + requestCount[i] + " days or " + downTime[i] + " hours.");
+            }
+        }
+        return success;
     }
 
     public void listMaintRequests(){
