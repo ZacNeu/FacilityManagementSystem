@@ -1,3 +1,5 @@
+package src;
+
 public class Facility {
     FacilityMaintenance fm = new FacilityMaintenance();
     FacilityUse fu = new FacilityUse();
