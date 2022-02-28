@@ -15,7 +15,7 @@ public class Facility {
     // Request list of facilities
     public object listFacilities(){
 
-        if(facilityNames[0] == null){
+        if(capacity == 10){
             System.out.println("There are no facilities currently in the list.");
         }
         else{
@@ -31,12 +31,12 @@ public class Facility {
     // Request existing facility information
     public object getFacilityInformation(String facilityName){
 
-        if(facilityStatus[0] == null){
+        if(capacity == 10){ // Check if the list is empty
             System.out.println("There is no facility status value in the list.");
         }
         else{
             for(int i = 0; i < facilityNames.length; i++){
-                if(facilityNames[i].toLowerCase().equals(facilityName.toLowerCase())){
+                if(facilityNames[i].toLowerCase().equals(facilityName.toLowerCase())){ // Looks for the specified facility
                     System.out.println(facilityStatus[i]); // Print out information of the given facility
                 /* Add more information to print, not sure
                 what other information to list for the facilities */
@@ -51,7 +51,11 @@ public class Facility {
 
     // Request the available capacity of facilities
     public object requestAvailableCapacity(){
-        System.out.print("Facility capacity available: " + capacity);
+        System.out.println("Facility capacity available: " + capacity); // Prints the current capacity value
+
+        if(capacity == 0){
+            System.out.println("There is no space for a new facility.");
+        }
     }
 
     // Add a new facility to the list
@@ -60,8 +64,8 @@ public class Facility {
         if(capacity > 0){
             for(int i = 0; i < facilityNames.length; i++){
                 if(facilityNames[i] == null){
-                    facilityNames[i] = newFacility;
-                    capacity--;
+                    facilityNames[i] = newFacility; // Adds the facility name to the list
+                    capacity--; // Decrements capacity to account for taken up space
                 }
             }
         }
@@ -75,8 +79,8 @@ public class Facility {
     public void addFacilityDetail(String facilityName, String statusValue){
 
         for(int i = 0; i < facilityNames.length; i++){
-            if(facilityNames[i].toLowerCase().equals(facilityName.toLowerCase())){
-                facilityStatus[i] = statusValue; // Adds status to a specific facility
+            if(facilityNames[i].toLowerCase().equals(facilityName.toLowerCase())){ // Looks for the specified facility
+                facilityStatus[i] = statusValue; // Adds status to the specified facility
             }
             else{
                 System.out.println("There is no facility with the name " + facilityName + " to add details to.");
@@ -89,9 +93,9 @@ public class Facility {
     public object removeFacility(String facilityName){
 
         for(int i = 0; i < facilityNames[i]; i++){
-            if(facilityNames[i].toLowerCase().equals(facilityName.toLowerCase())){
-                facilityNames[i] = null;
-                capacity++;
+            if(facilityNames[i].toLowerCase().equals(facilityName.toLowerCase())){ // Looks for the input facility
+                facilityNames[i] = null; // Sets the specified facility to null to remove from list
+                capacity++; // Adds to capacity tracker to account for the new space
             }
             else{
                 System.out.println("There is no facility with the name " + facilityName + " to remove from the list.");
