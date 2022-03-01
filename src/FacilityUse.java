@@ -36,12 +36,29 @@ public class FacilityUse{
         }
     }
 
-    public object listInspections(){
+    public String listInspections(String facilityName){
+        //default message
+        String inspections = "Error retreiving insepctions.";
+        //Find facility
+        for (int i = 0; i < F.facilityNames.length; i++){
+            if (F.facilityNames[i].equalsIgnoreCase(facilityName)){
 
+            }
+        }
+        inspections = "Inspections for " + facilityName + ": ";
+        return inspections;
     }
 
-    public object listActualUsage(){
-
+    public String listActualUsage(){
+        //default message
+        String actualUsage = "";
+        //for every facility
+        for (int i = 0; i < F.facilityNames.length; i++){
+            //takes every facility, divides capacity by max capacity (10) to find actual usage.
+            actualUsage += F.facilityNames[i] + " = " + (F.capacity / 10) + "% capacity.\n";
+       
+        }
+        return actualUsage;
     }
 
     public object calcUsageRate(){
