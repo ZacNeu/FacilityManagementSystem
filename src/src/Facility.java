@@ -1,11 +1,15 @@
 package src;
 
+import java.util.Scanner;
+
 public class Facility {
     FacilityMaintenance fm = new FacilityMaintenance();
     FacilityUse fu = new FacilityUse();
+    Scanner reader = new Scanner(System.in);
 
-    public String[] facilityNames = new String[10];
-    public String[] facilityStatus = new String[10];
+    String[] facilityNames = new String[10];
+    String[] facilityDetail = new String[10];
+    int[] employeeCount = new int[10];
     public int capacity = 10;
 
     // Request list of facilities
@@ -35,10 +39,25 @@ public class Facility {
         else{
             for(int i = 0; i < facilityNames.length; i++){
                 if(facilityNames[i].equalsIgnoreCase(facilityName)){ // Looks for the specified facility
-                    System.out.println(facilityStatus[i]); // Print out information of the given facility
-                }
-                else {
-                    System.out.println("There is no facility with the name " + facilityName);
+
+                    System.out.println("Facility name: " + facilityName);
+
+                    if(fu.user[i] != null){
+                        System.out.println(facilityName + " is in use by " + fu.user[i] + ".");
+                    }
+
+                    System.out.println(facilityName + "'s employee count is " + employeeCount[i] + ".");
+                    System.out.println(fu.calcUsageRate(facilityName));
+                    System.out.println(fu.listInspections(facilityName));
+                    System.out.println(fm.calcProblemRateForFacility(facilityName));
+                    System.out.println(fm.calcDownTimeForFacility(facilityName));
+                    System.out.println(fm.listMaintRequests(facilityName));
+                    System.out.println(fm.listMaintenance(facilityName));
+                    System.out.println(fm.listFacilityProblems(facilityName));
+
+                    if(facilityDetail[i] != null){
+                        System.out.println(facilityName + "'s details: " + facilityDetail[i] + ".");
+                    }
                 }
             }
         }
@@ -58,6 +77,8 @@ public class Facility {
                 if(facilityNames[i] == null){
                     facilityNames[i] = newFacility; // Adds the facility name to the list
                     capacity--; // Decrements capacity to account for taken up space
+                    System.out.println("How many employees will be hired at this facility?");
+                    employeeCount[i] = reader.nextInt();
                     success = true;
                 }
             }
@@ -69,14 +90,12 @@ public class Facility {
     }
 
     // Add details to specific facilities; Needs more details as we add details
-    public void addFacilityDetail(String facilityName, String statusValue){
+    public void addFacilityDetail(String facilityName){
 
         for(int i = 0; i < facilityNames.length; i++){
             if(facilityNames[i].equalsIgnoreCase(facilityName)){ // Looks for the specified facility
-                facilityStatus[i] = statusValue; // Adds status to the specified facility
-            }
-            else{
-                System.out.println("There is no facility with the name " + facilityName + " to add details to.");
+                System.out.println("What detail would you like to add to facility " + facilityName + "?");
+                facilityDetail[i] = reader.nextLine(); // Adds status to the specified facility
             }
         }
     }
@@ -88,11 +107,20 @@ public class Facility {
         for(int i = 0; i < facilityNames.length; i++){
             if(facilityNames[i].equalsIgnoreCase(facilityName)){ // Looks for the input facility
                 facilityNames[i] = null; // Sets the specified facility to null to remove from list
+                fu.user[i] = null;
+                employeeCount[i] = 0;
+                fu.usageRate[i] = 0;
+                fu.usageCount[i] = 0;
+                fu.inspections[i] = 0;
+                fm.problemRate[i] = 0;
+                fm.requestList[i] = null;
+                fm.requestCount[i] = 0;
+                fm.requestDates[i] = null;
+                fm.facilityProblem[i] = null;
+                fm.downTime[i] = 0;
+                fm.maintenanceStatus[i] = null;
                 capacity++; // Adds to capacity tracker to account for the new space
                 success = true;
-            }
-            else{
-                System.out.println("There is no facility with the name " + facilityName + " to remove from the list.");
             }
         }
         return success;

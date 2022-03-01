@@ -1,83 +1,89 @@
 package src;
 
-public class FacilityUse{
+public class FacilityUse {
 
     Facility F = new Facility();
+    String[] user = new String[10];
+    int[] inspections = new int[10];
+    int[] usageCount = new int[10];
+    int[] usageRate = new int[10];
 
-    public boolean isInUseDuringInterval(int startTime, int duration, String facilityName){
+
+    public boolean isInUseDuringInterval(int startTime, int duration, String facilityName) {
         boolean success = false;
         //find facility
-        for(int i = 0; i < F.facilityNames.length; i++){
-            if(F.facilityNames[i].equalsIgnoreCase(facilityName)){
+        for (int i = 0; i < F.facilityNames.length; i++) {
+            if (F.facilityNames[i].equalsIgnoreCase(facilityName)) {
 
                 //determine if facility is in use
-                    //additional info for time needs to be implmented. 
-                if (F.capacity == 0 ){
+                //additional info for time needs to be implemented.
+                if (F.capacity == 0) {
                     success = true;
-
-             } 
+                }
+            }
         }
-   
+        return success;
     }
-    return success;
-}
 
-    public void assignFacilityToUse(String facilityName, int startingTime){
+    public void assignFacilityToUse(String facilityName) {
+        System.out.println("What is your name?");
+        String userName = F.reader.nextLine();
+
         //Find facility
-        for(int i = 0; i< F.facilityNames.length; i++) {
-            if (F.facilityNames[i].equalsIgnoreCase(facilityName)){
-                
+        for (int i = 0; i < F.facilityNames.length; i++) {
+            if (F.facilityNames[i].equalsIgnoreCase(facilityName)) {
+                for (int j = 0; j < user.length; j++) {
+                    if (!user[j].equalsIgnoreCase(userName)) {
+                        user[i] = userName;
+                        usageCount[i] += 1;
+                        System.out.println("Facility " + facilityName + " has been assigned to " + userName + " successfully.");
+                    }
+                }
             }
         }
-    
-
     }
 
-    public void vacateFacility(String facilityName){
+    public void vacateFacility(String facilityName) {
         //Find facility
-        for(int i = 0; i < F.facilityNames.length; i++){
-            if (F.facilityNames[i].equalsIgnoreCase(facilityName)){
-                //Found facility, sets capacity to 0.
-                F.capacity = 0;
+        for (int i = 0; i < F.facilityNames.length; i++) {
+            if (F.facilityNames[i].equalsIgnoreCase(facilityName)) {
+                F.employeeCount[i] = 0; // Vacates facility
             }
         }
     }
 
-    public String listInspections(String facilityName){
-        //default message
-        String inspections = "Error retreiving insepctions.";
+    public String listInspections(String facilityName) {
         //Find facility
-        for (int i = 0; i < F.facilityNames.length; i++){
-            if (F.facilityNames[i].equalsIgnoreCase(facilityName)){
-
+        String success = "Looking for facility";
+        for (int i = 0; i < F.facilityNames.length; i++) {
+            if (F.facilityNames[i].equalsIgnoreCase(facilityName)) {
+                if (inspections[i] != 0) {
+                    success = "Facility " + facilityName + " has had " + inspections[i] + " inspections/maintenance calls";
+                } else {
+                    success = "Facility " + facilityName + " has had no inspections/maintenance calls";
+                }
             }
         }
-        inspections = "Inspections for " + facilityName + ": ";
-        return inspections;
+        return success;
     }
 
-    public String listActualUsage(){
-        //default message
-        String actualUsage = "";
-        //for every facility
-        for (int i = 0; i < F.facilityNames.length; i++){
-            //takes every facility, lists capacity (out of 10)
-            actualUsage += F.facilityNames[i] + " = " + (10 - F.capacity) + "/n";
-       
-        }
-        return actualUsage;
-    }
-
-    public int calcUsageRate(String facilityName){
-        //initialize return int
-        int usageRate = 0;
-        //Find Facility
-        for (int i = 0; i<F.facilityNames.length; i++) {
-            if (F.facilityNames[i].equalsIgnoreCase(facilityName)){
-               //find usage rate by dividing current occupancy by capacity (10), *100 for pecentage)
-                usageRate = ((10-F.capacity) / 10) * 100 ;
+    public void listActualUsage() {
+        for (int i = 0; i < F.facilityNames.length; i++) {
+            if (F.employeeCount[i] != 0 && user[i] != null) {
+                System.out.println("Facility " + F.facilityNames[i] + " is being used by " + F.employeeCount[i] + "amount of employees used by " + user[i]);
             }
         }
-        return usageRate;
+    }
+
+    public String calcUsageRate(String facilityName) {
+        int currentUsageRate = 0;
+
+        for (int i = 0; i < F.facilityNames.length; i++) {
+            if (F.facilityNames[i].equalsIgnoreCase(facilityName)) {
+                usageRate[i] = ((usageCount[i] / 365) * 100);
+                currentUsageRate = usageRate[i];
+            }
+        }
+        return facilityName + "'s usage rate is " + currentUsageRate + "%";
     }
 }
