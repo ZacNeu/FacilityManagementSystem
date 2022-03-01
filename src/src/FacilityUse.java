@@ -9,7 +9,7 @@ public class FacilityUse {
     int[] usageRate = new int[10];
 
 
-    public boolean isInUseDuringInterval(int startTime, int duration, String facilityName) {
+    public boolean isInUseDuringInterval(String facilityName) {
         boolean success = false;
         //find facility
         for (int i = 0; i < F.facilityNames.length; i++) {
