@@ -14,10 +14,8 @@ public class FacilityUse {
         //find facility
         for (int i = 0; i < F.facilityNames.length; i++) {
             if (F.facilityNames[i].equalsIgnoreCase(facilityName)) {
-
-                //determine if facility is in use
-                //additional info for time needs to be implemented.
-                if (F.capacity == 0) {
+                if(user[i] != null){
+                    System.out.println("This facility is in use by " + user[i] + ".");
                     success = true;
                 }
             }
