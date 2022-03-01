@@ -98,9 +98,4 @@ public class Facility {
         return success;
     }
 
-    public static void main(String[] args){
-        Facility F = new Facility();
-
-        F.listFacilities();
-    }
 }
