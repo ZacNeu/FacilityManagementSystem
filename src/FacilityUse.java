@@ -17,8 +17,7 @@ public class FacilityUse{
 
              } 
         }
-
-        
+   
     }
     return success;
 }
@@ -27,8 +26,14 @@ public class FacilityUse{
 
     }
 
-    public object vacateFacility(){
-
+    public void vacateFacility(String facilityName){
+        //Find facility
+        for(int i = 0; i < F.facilityNames.length; i++){
+            if (F.facilityNames[i].equalsIgnoreCase(facilityName)){
+                //Found facility, sets capacity to 0.
+                F.capacity = 0;
+            }
+        }
     }
 
     public object listInspections(){
