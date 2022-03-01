@@ -22,7 +22,14 @@ public class FacilityUse{
     return success;
 }
 
-    public object assignFacilityToUse(){
+    public void assignFacilityToUse(String facilityName, int startingTime){
+        //Find facility
+        for(int i = 0; i< F.facilityNames.length; i++) {
+            if (F.facilityNames[i].equalsIgnoreCase(facilityName)){
+                
+            }
+        }
+    
 
     }
 
@@ -54,15 +61,23 @@ public class FacilityUse{
         String actualUsage = "";
         //for every facility
         for (int i = 0; i < F.facilityNames.length; i++){
-            //takes every facility, divides capacity by max capacity (10) to find actual usage.
-            actualUsage += F.facilityNames[i] + " = " + (F.capacity / 10) + "% capacity.\n";
+            //takes every facility, lists capacity (out of 10)
+            actualUsage += F.facilityNames[i] + " = " + (10 - F.capacity) + "/n";
        
         }
         return actualUsage;
     }
 
-    public object calcUsageRate(){
-
+    public int calcUsageRate(String facilityName){
+        //initialize return int
+        int usageRate = 0;
+        //Find Facility
+        for (int i = 0; i<F.facilityNames.length; i++) {
+            if (F.facilityNames[i].equalsIgnoreCase(facilityName)){
+               //find usage rate by dividing current occupancy by capacity (10), *100 for pecentage)
+                usageRate = ((10-F.capacity) / 10) * 100 ;
+            }
+        }
+        return usageRate;
     }
-
 }
