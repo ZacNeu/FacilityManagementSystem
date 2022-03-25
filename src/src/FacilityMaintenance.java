@@ -15,6 +15,7 @@ public class FacilityMaintenance{
     int[] downTime = new int[10];
     String[] maintenanceStatus = new String[10];
     String[] maintenanceProgress = {"Request Submitted","Queued", "In progress"};
+    int[] maintCost = new int[10];
 
     public boolean MakeFacilityMaintRequest(String facilityName){
         boolean success = false;
@@ -61,6 +62,22 @@ public class FacilityMaintenance{
             else{
                 requestDates[index] = date;
                 success = "Your maintenance date preference was successfully set.";
+            }
+        }
+        return success;
+    }
+
+    public String calcMaintenanceCostForFacility(String facilityName){
+        int[] maintPrice = {200, 400, 700, 1000};
+
+        String success = "Failed to calculate maintenance cost for this facility, try again";
+
+        for(int i = 0; i < F.facilityNames.length; i++){
+            if(F.facilityNames[i].equalsIgnoreCase(facilityName)){
+                int random = rand.nextInt(4);
+                maintCost[i] = requestCount[i] * maintPrice[random];
+
+                success = "Facility " + facilityName + "'s maintenance cost is $" + maintCost[i] + ".";
             }
         }
         return success;

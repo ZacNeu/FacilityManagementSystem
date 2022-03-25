@@ -54,6 +54,7 @@ public class Facility {
                     System.out.println(fm.listMaintRequests(facilityName));
                     System.out.println(fm.listMaintenance(facilityName));
                     System.out.println(fm.listFacilityProblems(facilityName));
+                    System.out.println(fm.calcMaintenanceCostForFacility(facilityName));
 
                     if(facilityDetail[i] != null){
                         System.out.println(facilityName + "'s details: " + facilityDetail[i] + ".");
@@ -119,6 +120,7 @@ public class Facility {
                 fm.facilityProblem[i] = null;
                 fm.downTime[i] = 0;
                 fm.maintenanceStatus[i] = null;
+                fm.maintCost[i] = 0;
                 capacity++; // Adds to capacity tracker to account for the new space
                 success = true;
             }
