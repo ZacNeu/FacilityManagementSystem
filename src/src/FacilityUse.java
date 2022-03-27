@@ -1,8 +1,16 @@
 package src;
 
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 public class FacilityUse {
 
-    Facility F = new Facility();
+    ApplicationContext context = new ClassPathXmlApplicationContext("META-INF/app-context.xml");
+
+    Facility fac = (Facility) context.getBean("fac");
+    FacilityMaintenance facMaint = (FacilityMaintenance) context.getBean("facMaint");
+
     String[] user = new String[10];
     int[] inspections = new int[10];
     int[] usageCount = new int[10];
@@ -12,8 +20,8 @@ public class FacilityUse {
     public boolean isInUseDuringInterval(String facilityName) {
         boolean success = false;
         //find facility
-        for (int i = 0; i < F.facilityNames.length; i++) {
-            if (F.facilityNames[i].equalsIgnoreCase(facilityName)) {
+        for (int i = 0; i < fac.facilityNames.length; i++) {
+            if (fac.facilityNames[i].equalsIgnoreCase(facilityName)) {
                 if(user[i] != null){
                     System.out.println("This facility is in use by " + user[i] + ".");
                     success = true;
@@ -25,11 +33,11 @@ public class FacilityUse {
 
     public void assignFacilityToUse(String facilityName) {
         System.out.println("What is your name?");
-        String userName = F.reader.nextLine();
+        String userName = fac.reader.nextLine();
 
         //Find facility
-        for (int i = 0; i < F.facilityNames.length; i++) {
-            if (F.facilityNames[i].equalsIgnoreCase(facilityName)) {
+        for (int i = 0; i < fac.facilityNames.length; i++) {
+            if (fac.facilityNames[i].equalsIgnoreCase(facilityName)) {
                 for (int j = 0; j < user.length; j++) {
                     if (!user[j].equalsIgnoreCase(userName)) {
                         user[i] = userName;
@@ -43,9 +51,9 @@ public class FacilityUse {
 
     public void vacateFacility(String facilityName) {
         //Find facility
-        for (int i = 0; i < F.facilityNames.length; i++) {
-            if (F.facilityNames[i].equalsIgnoreCase(facilityName)) {
-                F.employeeCount[i] = 0; // Vacates facility
+        for (int i = 0; i < fac.facilityNames.length; i++) {
+            if (fac.facilityNames[i].equalsIgnoreCase(facilityName)) {
+                fac.employeeCount[i] = 0; // Vacates facility
             }
         }
     }
@@ -53,8 +61,8 @@ public class FacilityUse {
     public String listInspections(String facilityName) {
         //Find facility
         String success = "Looking for facility";
-        for (int i = 0; i < F.facilityNames.length; i++) {
-            if (F.facilityNames[i].equalsIgnoreCase(facilityName)) {
+        for (int i = 0; i < fac.facilityNames.length; i++) {
+            if (fac.facilityNames[i].equalsIgnoreCase(facilityName)) {
                 if (inspections[i] != 0) {
                     success = "Facility " + facilityName + " has had " + inspections[i] + " inspections/maintenance calls";
                 } else {
@@ -66,9 +74,9 @@ public class FacilityUse {
     }
 
     public void listActualUsage() {
-        for (int i = 0; i < F.facilityNames.length; i++) {
-            if (F.employeeCount[i] != 0 && user[i] != null) {
-                System.out.println("Facility " + F.facilityNames[i] + " is being used by " + F.employeeCount[i] + "amount of employees used by " + user[i]);
+        for (int i = 0; i < fac.facilityNames.length; i++) {
+            if (fac.employeeCount[i] != 0 && user[i] != null) {
+                System.out.println("Facility " + fac.facilityNames[i] + " is being used by " + fac.employeeCount[i] + "amount of employees used by " + user[i]);
             }
         }
     }
@@ -76,8 +84,8 @@ public class FacilityUse {
     public String calcUsageRate(String facilityName) {
         int currentUsageRate = 0;
 
-        for (int i = 0; i < F.facilityNames.length; i++) {
-            if (F.facilityNames[i].equalsIgnoreCase(facilityName)) {
+        for (int i = 0; i < fac.facilityNames.length; i++) {
+            if (fac.facilityNames[i].equalsIgnoreCase(facilityName)) {
                 usageRate[i] = ((usageCount[i] / 365) * 100);
                 currentUsageRate = usageRate[i];
             }

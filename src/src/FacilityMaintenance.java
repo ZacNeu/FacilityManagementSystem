@@ -1,10 +1,18 @@
 package src;
 
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import java.util.Random;
 
 public class FacilityMaintenance{
 
-    Facility F = new Facility();
+    ApplicationContext context = new ClassPathXmlApplicationContext("META-INF/app-context.xml");
+
+    Facility fac = (Facility) context.getBean("fac");
+    FacilityUse facUse = (FacilityUse) context.getBean("facUse");
+
     Random rand = new Random();
 
     String[] requestList = new String[10];
@@ -20,24 +28,24 @@ public class FacilityMaintenance{
     public boolean MakeFacilityMaintRequest(String facilityName){
         boolean success = false;
 
-        if(F.capacity == 10){
+        if(fac.capacity == 10){
             System.out.println("There are no facilities to request maintenance for.");
         }
         else{
-            for(int i = 0; i < F.facilityNames.length; i++){
-                if(F.facilityNames[i].equalsIgnoreCase(facilityName)){
+            for(int i = 0; i < fac.facilityNames.length; i++){
+                if(fac.facilityNames[i].equalsIgnoreCase(facilityName)){
                     System.out.println("What is the specific problem?");
-                    facilityProblem[i] = F.reader.nextLine();
+                    facilityProblem[i] = fac.reader.nextLine();
                     System.out.println("What would you like from maintenance?");
-                    requestList[i] = F.reader.nextLine();
+                    requestList[i] = fac.reader.nextLine();
                     requestCount[i] += 1;
-                    F.fu.inspections[i] += 1;
+                    facUse.inspections[i] += 1;
 
 
                     System.out.println("Your request was successfully processed and added to the list.");
                     System.out.println("-------------------------------------------------------------");
                     System.out.println("Enter your preferred month and day for the maintenance (mm/dd): ");
-                    String date = F.reader.nextLine();
+                    String date = fac.reader.nextLine();
                     scheduleMaintenance(date, i);
 
                     int randInt = rand.nextInt(3);
@@ -56,7 +64,7 @@ public class FacilityMaintenance{
         for(int i = 0; i < requestDates.length; i++){
             if(requestDates[i].equals(date)){
                 System.out.println("Maintenance exists for that day already, choose a different day (mm/dd): ");
-                date = F.reader.nextLine();
+                date = fac.reader.nextLine();
                 scheduleMaintenance(date, index);
             }
             else{
@@ -72,8 +80,8 @@ public class FacilityMaintenance{
 
         String success = "Failed to calculate maintenance cost for this facility, try again";
 
-        for(int i = 0; i < F.facilityNames.length; i++){
-            if(F.facilityNames[i].equalsIgnoreCase(facilityName)){
+        for(int i = 0; i < fac.facilityNames.length; i++){
+            if(fac.facilityNames[i].equalsIgnoreCase(facilityName)){
                 int random = rand.nextInt(4);
                 maintCost[i] = requestCount[i] * maintPrice[random];
 
@@ -86,8 +94,8 @@ public class FacilityMaintenance{
     public String calcProblemRateForFacility(String facilityName){
         String success = "Failed to calculate problem rate, try again";
 
-        for(int i = 0; i < F.facilityNames.length; i++){
-            if(F.facilityNames[i].equalsIgnoreCase(facilityName)){
+        for(int i = 0; i < fac.facilityNames.length; i++){
+            if(fac.facilityNames[i].equalsIgnoreCase(facilityName)){
                 problemRate[i] = ((requestCount[i] / 365) * 100); /* Calculates problem rate,
                                                                     requestCount counts the amount of days needed for requests (1 request takes
                                                                     1 day), divided by
@@ -102,8 +110,8 @@ public class FacilityMaintenance{
     public String calcDownTimeForFacility(String facilityName){
         String success = "Failed to calculate down time, try again";
 
-        for(int i = 0; i < F.facilityNames.length; i++){
-            if(F.facilityNames[i].equalsIgnoreCase(facilityName)){
+        for(int i = 0; i < fac.facilityNames.length; i++){
+            if(fac.facilityNames[i].equalsIgnoreCase(facilityName)){
                 downTime[i] = requestCount[i] * 24; /* Since requests take one day to do, facility is down for that day, requestCount has the amount of days
                                                        per facility, so I take amount of days and multiply by 24 to get total amount of hours of downtime. */
                 success = "Facility " + facilityName + " was down for " + requestCount[i] + " days or " + downTime[i] + " hours.";
@@ -114,8 +122,8 @@ public class FacilityMaintenance{
 
     public String listMaintRequests(String facilityName){
         String success = "Failed to find facility, try again";
-        for(int i = 0; i < F.facilityNames.length; i++){
-            if(F.facilityNames[i].equalsIgnoreCase(facilityName)){
+        for(int i = 0; i < fac.facilityNames.length; i++){
+            if(fac.facilityNames[i].equalsIgnoreCase(facilityName)){
                 if(requestList[i] != null){
                     success = "The current request at facility " + facilityName + " is: " + maintenanceStatus[i] + " and is set for" + requestDates[i] + ".";
                 }
@@ -129,8 +137,8 @@ public class FacilityMaintenance{
 
     public String listMaintenance(String facilityName){
         String success = "Failed to find facility, try again";
-        for(int i = 0; i < F.facilityNames.length; i++){
-            if(F.facilityNames[i].equalsIgnoreCase(facilityName)){
+        for(int i = 0; i < fac.facilityNames.length; i++){
+            if(fac.facilityNames[i].equalsIgnoreCase(facilityName)){
                 if(requestList[i] != null){
                     success = "The current status on your request for facility " + facilityName + " is: " + maintenanceStatus[i] + ".";
                 }
@@ -144,8 +152,8 @@ public class FacilityMaintenance{
 
     public String listFacilityProblems(String facilityName){
         String success = "Failed to find facility, try again";
-        for(int i = 0; i < F.facilityNames.length; i++){
-            if(F.facilityNames[i].equalsIgnoreCase(facilityName)){
+        for(int i = 0; i < fac.facilityNames.length; i++){
+            if(fac.facilityNames[i].equalsIgnoreCase(facilityName)){
                 if(facilityProblem[i] != null){
                     success = "The current problem with facility " + facilityName + " is " + facilityProblem[i] + ".";
                 }

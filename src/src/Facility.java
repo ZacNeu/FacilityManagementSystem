@@ -7,8 +7,12 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class Facility {
-    FacilityMaintenance fm = new FacilityMaintenance();
-    FacilityUse fu = new FacilityUse();
+
+    ApplicationContext context = new ClassPathXmlApplicationContext("META-INF/app-context.xml");
+
+    FacilityMaintenance facMaint = (FacilityMaintenance) context.getBean("facMaint");
+    FacilityUse facUse = (FacilityUse) context.getBean("facUse");
+
     Scanner reader = new Scanner(System.in);
 
     String[] facilityNames = new String[10];
@@ -46,19 +50,19 @@ public class Facility {
 
                     System.out.println("Facility name: " + facilityName);
 
-                    if(fu.user[i] != null){
-                        System.out.println(facilityName + " is in use by " + fu.user[i] + ".");
+                    if(facUse.user[i] != null){
+                        System.out.println(facilityName + " is in use by " + facUse.user[i] + ".");
                     }
 
                     System.out.println(facilityName + "'s employee count is " + employeeCount[i] + ".");
-                    System.out.println(fu.calcUsageRate(facilityName));
-                    System.out.println(fu.listInspections(facilityName));
-                    System.out.println(fm.calcProblemRateForFacility(facilityName));
-                    System.out.println(fm.calcDownTimeForFacility(facilityName));
-                    System.out.println(fm.listMaintRequests(facilityName));
-                    System.out.println(fm.listMaintenance(facilityName));
-                    System.out.println(fm.listFacilityProblems(facilityName));
-                    System.out.println(fm.calcMaintenanceCostForFacility(facilityName));
+                    System.out.println(facUse.calcUsageRate(facilityName));
+                    System.out.println(facUse.listInspections(facilityName));
+                    System.out.println(facMaint.calcProblemRateForFacility(facilityName));
+                    System.out.println(facMaint.calcDownTimeForFacility(facilityName));
+                    System.out.println(facMaint.listMaintRequests(facilityName));
+                    System.out.println(facMaint.listMaintenance(facilityName));
+                    System.out.println(facMaint.listFacilityProblems(facilityName));
+                    System.out.println(facMaint.calcMaintenanceCostForFacility(facilityName));
 
                     if(facilityDetail[i] != null){
                         System.out.println(facilityName + "'s details: " + facilityDetail[i] + ".");
@@ -112,24 +116,23 @@ public class Facility {
         for(int i = 0; i < facilityNames.length; i++){
             if(facilityNames[i].equalsIgnoreCase(facilityName)){ // Looks for the input facility
                 facilityNames[i] = null; // Sets the specified facility to null to remove from list
-                fu.user[i] = null;
+                facUse.user[i] = null;
                 employeeCount[i] = 0;
-                fu.usageRate[i] = 0;
-                fu.usageCount[i] = 0;
-                fu.inspections[i] = 0;
-                fm.problemRate[i] = 0;
-                fm.requestList[i] = null;
-                fm.requestCount[i] = 0;
-                fm.requestDates[i] = null;
-                fm.facilityProblem[i] = null;
-                fm.downTime[i] = 0;
-                fm.maintenanceStatus[i] = null;
-                fm.maintCost[i] = 0;
+                facUse.usageRate[i] = 0;
+                facUse.usageCount[i] = 0;
+                facUse.inspections[i] = 0;
+                facMaint.problemRate[i] = 0;
+                facMaint.requestList[i] = null;
+                facMaint.requestCount[i] = 0;
+                facMaint.requestDates[i] = null;
+                facMaint.facilityProblem[i] = null;
+                facMaint.downTime[i] = 0;
+                facMaint.maintenanceStatus[i] = null;
+                facMaint.maintCost[i] = 0;
                 capacity++; // Adds to capacity tracker to account for the new space
                 success = true;
             }
         }
         return success;
     }
-
 }
