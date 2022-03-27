@@ -2,6 +2,10 @@ package src;
 
 import java.util.Scanner;
 
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 public class Facility {
     FacilityMaintenance fm = new FacilityMaintenance();
     FacilityUse fu = new FacilityUse();
